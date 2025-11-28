@@ -61,13 +61,14 @@ def load_model_artifact(store_id: str):
                             p.replace(file_path)
                             break
                 except Exception:
-                    # try kaggle CLI fallback
+                    # try kaggle CLI fallback using models instances versions download
                     try:
                         import subprocess
                         MODELS_DIR.mkdir(parents=True, exist_ok=True)
+                        # Use kaggle models instances versions download for the specific version
                         cmd = [
-                            "kaggle", "datasets", "download", kaggle_dataset,
-                            "-f", f"{store_id}.pkl", "-p", str(MODELS_DIR), "--unzip"
+                            "kaggle", "models", "instances", "versions", "download",
+                            kaggle_dataset, "-p", str(MODELS_DIR)
                         ]
                         subprocess.run(cmd, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=120)
                     except Exception as e:
