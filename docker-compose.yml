@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    image: retail-backend:latest
+    volumes:
+      - ./backend/models:/app/models:ro
+    ports:
+      - '8000:8000'
+    environment:
+      - MODELS_DIR=/app/models
+
+  ui:
+    build:
+      context: .
+      dockerfile: UI/Dockerfile
+    image: retail-ui:latest
+    ports:
+      - '8501:8501'
+    environment:
+      - API_URL=http://backend:8000
+    depends_on:
+      - backend
