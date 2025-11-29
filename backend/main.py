@@ -57,7 +57,7 @@ def predict_single(req: SinglePrediction):
         model = artifact["model"]
 
         pred = model.predict(X)[0]
-        return {"prediction": int(round(pred))}
+        return {"prediction": int(np.round(pred))}
     except Exception as e:
         raise HTTPException(500, f"Prediction error: {str(e)}")
 
